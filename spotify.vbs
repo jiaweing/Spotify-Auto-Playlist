@@ -1,3 +1,4 @@
+WScript.sleep 5000
 Set WshShell = WScript.CreateObject("WScript.Shell")
 Comandline = ":\Users\myst\AppData\Roaming\Spotify\Spotify.exe"
 WScript.sleep 500
@@ -20,16 +21,25 @@ End If
 WScript.sleep 1000
 
 ' Mute Volume
-for i=1 to 100
+' It takes 16 x CTRL + DOWN to get from 100 to 0
+for i=1 to 16
 	WshShell.SendKeys("^{DOWN}")
 next
 WScript.sleep 500
 
-' Turn Up Volume to 20
-for i=1 to 4
-	WshShell.SendKeys("^{UP}")
-next
-WScript.sleep 500
+' Turn Up the Volume
+If currentHour <= 10 OR currentHour >= 19 Then
+	' 25 in the morning and night
+	for i=1 to 4
+		WshShell.SendKeys("^{UP}")
+	next
+Else
+	' 50 in the afternoon
+	for i=1 to 8
+		WshShell.SendKeys("^{UP}")
+	next
+End If
+WScript.sleep 1000
 
 ' Find the Play button in the Playlist
 ' Some playlists have an additional "Created by Spotify" link which requires an additional TAB
